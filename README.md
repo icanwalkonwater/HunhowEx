@@ -1,2 +1,2 @@
-# HunhowEx
-V2 of Hunhow
+# HunhowEx v2.0.0
+The rewrited version of Hunhow.
