@@ -1,0 +1,38 @@
+group 'HunhowBotEx'
+version '2.0.0'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    compile 'net.dv8tion:JDA:3.1.0_204' // Renember to change in info command
+    compile 'com.sedmelluq:lavaplayer:1.2.39'
+    compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.8.8'
+    compile 'org.slf4j:slf4j-nop:1.7.21'
+    compile 'org.jsoup:jsoup:1.10.2'
+}
+
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Main-Class': 'com.jesus_crie.hunhowex.Main'
+    }
+
+    from {
+        configurations.compile.collect {
+            dependency ->
+                if (dependency.directory) {
+                    return dependency
+                } else {
+                    return zipTree(dependency)
+                }
+        }
+    }
+    with jar
+}

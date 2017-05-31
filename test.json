@@ -1,0 +1,26 @@
+[
+	{
+		"id" : "guid_id",
+		"music_autoplaylist" : [
+			"some_vid_id",
+			"some_vid_id2"
+		],
+		"permissions" : [
+			{
+				"default" : true,
+				"discord_id" : "some_id",
+				"cmd_enabled" : [
+					"help",
+					"music"
+				]
+			}, {
+				"default" : false,
+				"discord_id" : "some_id2",
+				"cmd_enabled" : [
+					"moderation",
+					"warframe"
+				]
+			}
+		]
+	}
+]
