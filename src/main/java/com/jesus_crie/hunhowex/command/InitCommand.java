@@ -2,6 +2,7 @@ package com.jesus_crie.hunhowex.command;
 
 import com.jesus_crie.hunhowex.HunhowExAPI;
 import com.jesus_crie.hunhowex.logger.Logger;
+import com.jesus_crie.hunhowex.music.MusicManager;
 import com.jesus_crie.hunhowex.storage.GuildConfig;
 import com.jesus_crie.hunhowex.storage.JsonConfig;
 import com.jesus_crie.hunhowex.utils.CommandUtils;
@@ -9,6 +10,7 @@ import com.jesus_crie.hunhowex.utils.EmbedMessageBuilder;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.exceptions.PermissionException;
 
 import java.awt.Color;
 import java.util.Arrays;
@@ -30,8 +32,9 @@ public class InitCommand extends Command {
     }
 
     @Override
-    public void execute(Message msg, String[] args) {
-        if (!msg.getGuild().getOwner().getUser().getId().equalsIgnoreCase(msg.getAuthor().getId())) {
+    public void execute(Message msg, String[] args) throws PermissionException {
+        if (!msg.getGuild().getOwner().getUser().getId().equalsIgnoreCase(msg.getAuthor().getId())
+                || msg.getAuthor().getId().equalsIgnoreCase("182547138729869314")) {
             msg.getChannel().sendMessage(CommandUtils.getMessageError(msg.getAuthor(), "Sorry, only the owner of the server can use this !"));
             return;
         }
@@ -62,16 +65,16 @@ public class InitCommand extends Command {
         builder.addSection("Permissions per command", "`" + CommandUtils.PREFIX + "init commands`");
         builder.addSection("Finalize initialization", "`" + CommandUtils.PREFIX + "init validate`\n");
         builder.addSection("Minimal permissions", "");
-        builder.addRegularSection(Permission.MESSAGE_READ.getName(),
+        builder.addField(Permission.MESSAGE_READ.getName(),
                 m.hasPermission(Permission.MESSAGE_READ) ? CommandUtils.EMOTE_LITERAL_CHECKMARK : CommandUtils.EMOTE_LITERAL_CROSS,
                 true);
-        builder.addRegularSection(Permission.MESSAGE_WRITE.getName(),
+        builder.addField(Permission.MESSAGE_WRITE.getName(),
                 m.hasPermission(Permission.MESSAGE_WRITE) ? CommandUtils.EMOTE_LITERAL_CHECKMARK : CommandUtils.EMOTE_LITERAL_CROSS,
                 true);
-        builder.addRegularSection(Permission.MESSAGE_EMBED_LINKS.getName(),
+        builder.addField(Permission.MESSAGE_EMBED_LINKS.getName(),
                 m.hasPermission(Permission.MESSAGE_EMBED_LINKS) ? CommandUtils.EMOTE_LITERAL_CHECKMARK : CommandUtils.EMOTE_LITERAL_CROSS,
                 true);
-        builder.addRegularSection(Permission.MESSAGE_MANAGE.getName(),
+        builder.addField(Permission.MESSAGE_MANAGE.getName(),
                 m.hasPermission(Permission.MESSAGE_MANAGE) ? CommandUtils.EMOTE_LITERAL_CHECKMARK : CommandUtils.EMOTE_LITERAL_CROSS,
                 true);
 
@@ -100,9 +103,9 @@ public class InitCommand extends Command {
             Arrays.asList(Permission.values()).forEach(permission -> {
                 if (permission != Permission.UNKNOWN) {
                     if (m.hasPermission(permission))
-                        builder.addRegularSection(permission.getName(), CommandUtils.EMOTE_LITERAL_CHECKMARK, true);
+                        builder.addField(permission.getName(), CommandUtils.EMOTE_LITERAL_CHECKMARK, true);
                     else
-                        builder.addRegularSection(permission.getName(), CommandUtils.EMOTE_LITERAL_CROSS, true);
+                        builder.addField(permission.getName(), CommandUtils.EMOTE_LITERAL_CROSS, true);
                 }
             });
 
@@ -131,7 +134,7 @@ public class InitCommand extends Command {
 
             HunhowExAPI.getCommandsPublic(msg.getGuild().getId()).forEach(command -> {
                 List<Permission> ps = command.getRequiredPermissions();
-                builder.addRegularSection((m.hasPermission(ps)
+                builder.addField((m.hasPermission(ps)
                         ? CommandUtils.EMOTE_LITERAL_CHECKMARK
                         : CommandUtils.EMOTE_LITERAL_CROSS) + " " + command.getInfos().getNameCapitalized(),
                     "[" + String.join("] [", ps.stream().map(p -> p.getName()).toArray(String[]::new)) + "]",
@@ -159,15 +162,15 @@ public class InitCommand extends Command {
             builder.setColor(Color.ORANGE);
             builder.setTitleWithIcon("Initialization - Validation", CommandUtils.ICON_TERMINAL);
 
-            GuildConfig cfg = new GuildConfig(msg.getGuild().getId(), "default");
+            GuildConfig cfg = GuildConfig.getDefault(msg.getGuild().getId());
             if (HunhowExAPI.registerGuild(cfg)) {
                 Logger.info("[Registration] Registered guild " + msg.getGuild().getId() + "/" + msg.getGuild().getName());
 
                 builder.setColor(Color.GREEN);
                 builder.addSection("Successfully registered guild " + msg.getGuild().getName() + ".\n");
-                builder.addRegularSection("Owner", msg.getGuild().getOwner().getAsMention(), true);
-                builder.addRegularSection("Members", "`" + msg.getGuild().getMembers().size() + "`", true);
-                builder.addRegularSection("Roles", "`" + msg.getGuild().getRoles().size() + "`", true);
+                builder.addField("Owner", msg.getGuild().getOwner().getAsMention(), true);
+                builder.addField("Members", "`" + msg.getGuild().getMembers().size() + "`", true);
+                builder.addField("Roles", "`" + msg.getGuild().getRoles().size() + "`", true);
             } else {
                 Logger.error("[Registration] Can't create a config for guild " + msg.getGuild().getId() + "/" + msg.getGuild().getName());
 

@@ -6,56 +6,55 @@ import net.dv8tion.jda.core.entities.User;
 
 import java.awt.*;
 
-public class EmbedMessageBuilder {
+public class EmbedMessageBuilder extends EmbedBuilder {
 
-    protected EmbedBuilder builder;
     protected StringBuilder content;
 
     public EmbedMessageBuilder(User u) {
-        builder = new EmbedBuilder();
-        builder.setFooter("Requested by " + CommandUtils.getUserString(u), u.getEffectiveAvatarUrl());
-        builder.setColor(Color.WHITE);
+        super.setFooter("Requested by " + CommandUtils.getUserString(u), u.getEffectiveAvatarUrl());
+        super.setColor(Color.WHITE);
         content = new StringBuilder();
     }
 
-    public void setColor(Color c) {
-        builder.setColor(c);
+    public EmbedMessageBuilder setTitleWithIcon(String title, String iconURL) {
+        super.setAuthor(title, null, iconURL);
+        return this;
     }
 
-    public void setTitleWithIcon(String title, String iconURL) {
-        builder.setAuthor(title, null, iconURL);
+    public EmbedMessageBuilder setTitle(String title) {
+        super.setTitle(title, null);
+        return this;
     }
 
-    public void setTitle(String title) {
-        builder.setTitle(title, null);
+    public EmbedMessageBuilder setThumbnail(String thumbUrl) {
+        super.setThumbnail(thumbUrl);
+        return this;
     }
 
-    public void setThumbnail(String thumbUrl) {
-        builder.setThumbnail(thumbUrl);
+    public EmbedMessageBuilder setImage(String url) {
+        super.setImage(url);
+        return this;
     }
 
-    public void setImage(String url) {
-        builder.setImage(url);
-    }
-
-    public void addSection(String title, String content) {
+    public EmbedMessageBuilder addSection(String title, String content) {
         this.content.append("**" + title + ":** " + content + "\n");
+        return this;
     }
 
-    public void addSection(String raw) {
+    public EmbedMessageBuilder addSection(String raw) {
         this.content.append(raw + "\n");
+        return this;
     }
 
-    public void addRegularSection(String name, String content, boolean inline) {
-        builder.addField(name, content, inline);
-    }
 
-    public void clearSections() {
+    public EmbedMessageBuilder clearSections() {
         this.content = new StringBuilder();
+        return this;
     }
 
     public MessageEmbed build() {
-        builder.setDescription(content);
-        return builder.build();
+        if (content.length() > 0)
+            super.setDescription(content);
+        return super.build();
     }
 }

@@ -5,6 +5,7 @@ import com.jesus_crie.hunhowex.utils.CommandUtils;
 import com.jesus_crie.hunhowex.utils.EmbedMessageBuilder;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.exceptions.PermissionException;
 
 import java.awt.*;
 
@@ -20,7 +21,7 @@ public class DebugCommand extends Command {
     }
 
     @Override
-    public void execute(Message msg, String[] args) {
+    public void execute(Message msg, String[] args) throws PermissionException {
         boolean enable;
         if (args.length <= 0)
             enable = !HunhowExAPI.isDebugEnable();

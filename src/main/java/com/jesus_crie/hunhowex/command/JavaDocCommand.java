@@ -6,6 +6,7 @@ import com.jesus_crie.hunhowex.exception.ExceptionGravity;
 import com.jesus_crie.hunhowex.logger.Logger;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.exceptions.PermissionException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -44,7 +45,7 @@ public class JavaDocCommand extends Command {
     }
 
     @Override
-    public void execute(Message msg, String[] args) {
+    public void execute(Message msg, String[] args) throws PermissionException {
 
     }
 }

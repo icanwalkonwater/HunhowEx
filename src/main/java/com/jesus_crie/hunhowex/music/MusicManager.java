@@ -86,6 +86,21 @@ public class MusicManager {
         );
     }
 
+    public void registerGuild(GuildConfig guild) {
+        guildManagers.put(guild.getGuildId(),
+                new GuildMusicManager(HunhowExAPI.getJda().getGuildById(guild.getGuildId()),
+                manager.createPlayer(),
+                guild.getMusicAutoPlaylist().equalsIgnoreCase("default")
+                        ? defaultAuto
+                        : new AutoPlaylist(guild.getMusicAutoPlaylist(), manager)));
+    }
+
+    public void updateGuild(Guild g) {
+        getMusicManager(g).disconnect();
+        guildManagers.remove(g.getId());
+        registerGuild(HunhowExAPI.getGuildPreferences(g.getId()));
+    }
+
     public void disconnectFromAll() {
         guildManagers.values().forEach(m -> m.disconnect());
     }

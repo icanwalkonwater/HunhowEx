@@ -16,6 +16,8 @@ public class CommandUtils {
 
     public static final String PREFIX = "$";
 
+    public static final String GUILD_TEST_ZONE = "264001800686796800";
+
     public static final String ICON_INFO = "https://cdn.discordapp.com/attachments/302785106802638848/302790538627776512/sign-info-icon.png";
     public static final String ICON_MUSIC = "https://cdn.discordapp.com/attachments/302785106802638848/318025666199027712/sound-3-icon.png";
     public static final String ICON_HELP = "https://cdn.discordapp.com/attachments/302785106802638848/302793019323580416/sign-question-icon.png";
@@ -24,6 +26,8 @@ public class CommandUtils {
     public static final String ICON_CHECK = "https://cdn.discordapp.com/attachments/302785106802638848/317008503392829443/sign-check-icon.png";
     public static final String ICON_TERMINAL = "https://cdn.discordapp.com/attachments/302785106802638848/317074381656424459/terminal-icon.png";
     public static final String ICON_DOOR = "https://cdn.discordapp.com/attachments/302785106802638848/317280450811002880/door-icon.png";
+    public static final String ICON_GIPHY = "https://cdn.discordapp.com/attachments/302785106802638848/319467975080149003/giphy-logo-6611.png";
+    public static final String ICON_WARFRAME = "https://cdn.discordapp.com/attachments/302785106802638848/319936234069688341/51a55ae646e2c3afa88b3b79f60e779f.png";
 
     public static final String EMOTE_PREVIOUS = "\u23EA";
     public static final String EMOTE_NEXT = "\u23E9";
@@ -37,6 +41,10 @@ public class CommandUtils {
 
     public static final String GIPHY_BASE_GIF = "http://api.giphy.com/v1/gifs/";
     public static final String GIPHY_KEY = "dc6zaTOxFJmzC";
+
+    public static final String WARFRAME_ARMOR_RECAP = "https://cdn.discordapp.com/attachments/302785106802638848/319935669507981313/latest.png";
+    public static final String WARFRAME_ELEMENTS_RECAP = "https://cdn.discordapp.com/attachments/302785106802638848/319935854959132704/latest.png";
+    public static final String WARFRAME_AFFINTY_RECAP = "https://cdn.discordapp.com/attachments/302785106802638848/319949531997274123/latest.png";
 
     public static String getUserString(User u) {
         return (u.getName() + "#" + u.getDiscriminator());
@@ -62,7 +70,10 @@ public class CommandUtils {
     }
 
     public static String stringifyDate(long timestamp) {
-        return stringifyDate(OffsetDateTime.ofInstant(Instant.ofEpochMilli(timestamp), TimeZone.getTimeZone("GMT").toZoneId()));
+        return stringifyDate(
+                OffsetDateTime.ofInstant(
+                    Instant.ofEpochMilli(timestamp),
+                    TimeZone.getTimeZone("GMT").toZoneId()));
     }
 
     public static MessageEmbed getMessageGuildNotRegistered(User u) {
@@ -85,7 +96,8 @@ public class CommandUtils {
     public static MessageEmbed getMessageError(User u, String msg) {
         EmbedMessageBuilder builder = new EmbedMessageBuilder(u);
         builder.setColor(Color.RED);
-        builder.setTitleWithIcon(msg, ICON_ERROR);
+        builder.setTitleWithIcon("ERROR", ICON_ERROR);
+        builder.addSection(msg);
 
         return builder.build();
     }

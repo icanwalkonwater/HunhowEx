@@ -24,8 +24,6 @@ public class Logger {
     }
 
     public static void errorUnhandled(String message, Throwable e) {
-        System.out.println(getDatePrefix() + " " + message);
-        e.printStackTrace();
         if (HunhowEx.isConnected() && channel != null)
             channel.sendMessage(new DiscordLog.DiscordLogError(message, e.getStackTrace()).build()).queue();
     }

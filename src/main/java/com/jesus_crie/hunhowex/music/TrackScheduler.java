@@ -50,6 +50,7 @@ public class TrackScheduler extends AudioEventAdapter {
         queue.clear();
     }
 
+    @SuppressWarnings("unchecked")
     public LinkedList<AudioTrack> getQueue() {
         return (LinkedList<AudioTrack>) queue.clone();
     }

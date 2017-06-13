@@ -14,13 +14,11 @@ public class GuildMusicManager {
 
     private Guild guild;
     private AudioPlayer player;
-    private AutoPlaylist auto;
     private TrackScheduler scheduler;
 
     public GuildMusicManager(Guild guild, AudioPlayer player, AutoPlaylist auto) {
         this.guild = guild;
         this.player = player;
-        this.auto = auto;
         scheduler = new TrackScheduler(player, auto.get());
 
         player.addListener(scheduler);

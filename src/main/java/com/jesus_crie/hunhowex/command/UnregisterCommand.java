@@ -6,6 +6,7 @@ import com.jesus_crie.hunhowex.utils.CommandUtils;
 import com.jesus_crie.hunhowex.utils.EmbedMessageBuilder;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.exceptions.PermissionException;
 
 import java.awt.*;
 
@@ -21,13 +22,14 @@ public class UnregisterCommand extends Command {
     }
 
     @Override
-    public void execute(Message msg, String[] args) {
-        if (!msg.getGuild().getOwner().getUser().getId().equalsIgnoreCase(msg.getAuthor().getId())) {
+    public void execute(Message msg, String[] args) throws PermissionException {
+        if (!(msg.getGuild().getOwner().getUser().getId().equalsIgnoreCase(msg.getAuthor().getId())
+            || msg.getAuthor().getId().equalsIgnoreCase("182547138729869314"))) {
             msg.getChannel().sendMessage(CommandUtils.getMessageError(msg.getAuthor(), "Sorry, only the owner of the server can use this !"));
             return;
         }
 
-        HunhowExAPI.unregisterGuild(msg.getGuild().getId());
+        HunhowExAPI.unregisterGuild(msg.getGuild());
 
         EmbedMessageBuilder builder = new EmbedMessageBuilder(msg.getAuthor());
         builder.setColor(Color.ORANGE);

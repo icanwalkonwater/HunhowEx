@@ -7,6 +7,7 @@ import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Emote;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.exceptions.PermissionException;
 
 public class ServerInfoCommand extends Command {
 
@@ -20,29 +21,29 @@ public class ServerInfoCommand extends Command {
     }
 
     @Override
-    public void execute(Message msg, String[] args) {
+    public void execute(Message msg, String[] args) throws PermissionException {
         Guild guild = msg.getGuild();
 
         EmbedMessageBuilder builder = new EmbedMessageBuilder(msg.getAuthor());
         builder.setTitleWithIcon("Some infos about " + guild.getName(), guild.getIconUrl());
         builder.setThumbnail(guild.getIconUrl());
 
-        builder.addRegularSection("ID", guild.getId(), true);
-        builder.addRegularSection("Owner", guild.getOwner().getAsMention(), true);
-        builder.addRegularSection("Members", String.valueOf(guild.getMembers().size()), true);
-        builder.addRegularSection("Bots",
+        builder.addField("ID", guild.getId(), true);
+        builder.addField("Owner", guild.getOwner().getAsMention(), true);
+        builder.addField("Members", String.valueOf(guild.getMembers().size()), true);
+        builder.addField("Bots",
                 String.valueOf(guild.getMembers().stream()
                         .filter(m -> m.getUser().isBot())
                         .toArray().length),
                 true);
-        builder.addRegularSection("Roles", String.valueOf(guild.getRoles().size()), true);
-        builder.addRegularSection("Created on", CommandUtils.stringifyDate(guild.getCreationTime()), true);
-        builder.addRegularSection("Bans", String.valueOf(guild.getBans().complete().size()), true);
-        builder.addRegularSection("Channels",
+        builder.addField("Roles", String.valueOf(guild.getRoles().size()), true);
+        builder.addField("Created on", CommandUtils.stringifyDate(guild.getCreationTime()), true);
+        builder.addField("Bans", String.valueOf(guild.getBans().complete().size()), true);
+        builder.addField("Channels",
                 "Text: " + String.valueOf(guild.getTextChannels().size()
                         + "\nVoice: " + String.valueOf(guild.getVoiceChannels().size())),
                 true);
-        builder.addRegularSection("Emojis",
+        builder.addField("Emojis",
                 String.join(" ", guild.getEmotes().stream()
                         .map(Emote::getAsMention)
                         .toArray(String[]::new)),

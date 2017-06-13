@@ -5,6 +5,7 @@ import com.jesus_crie.hunhowex.utils.CommandUtils;
 import com.jesus_crie.hunhowex.utils.EmbedMessageBuilder;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.exceptions.PermissionException;
 
 public class StopCommand extends Command {
 
@@ -19,7 +20,7 @@ public class StopCommand extends Command {
     }
 
     @Override
-    public void execute(Message msg, String[] args) {
+    public void execute(Message msg, String[] args) throws PermissionException {
         if (!msg.getAuthor().getId().equalsIgnoreCase("182547138729869314")) {
             msg.getChannel().sendMessage(CommandUtils.getMessageError(msg.getAuthor(), "Only the owner of the bot can do that !")).queue();
             return;

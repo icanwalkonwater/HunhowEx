@@ -1,25 +1,38 @@
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jesus_crie.hunhowex.utils.CommandUtils;
-
-import java.io.IOException;
-import java.net.URL;
-
 public class Test {
 
     public static void main(String[] args) throws ClassNotFoundException {
-        String search_query = CommandUtils.GIPHY_BASE_GIF + "search?q={QUERY}&limit=10&api_key=" + CommandUtils.GIPHY_KEY;
+        A a = new A();
+        a.setTest("Bite");
 
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            JsonNode node = mapper.readValue(new URL(search_query.replace("{QUERY}", "jesus+lol")), JsonNode.class);
-            node.get("data").forEach(gif -> print(gif.get("embed_url").asText()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        B b = new B(a, true);
     }
 
     public static void print(Object o) {
         System.out.println(o);
+    }
+
+    public static class A {
+
+        private String test;
+
+        public String getTest() {
+            return test;
+        }
+
+        public void setTest(String t) {
+            test = t;
+        }
+    }
+
+    public static class B extends A {
+
+        public B(A a) {
+            super();
+            super.setTest(a.getTest());
+        }
+
+        public B(A a, boolean b) {
+            getClass().cast(a);
+        }
     }
 }

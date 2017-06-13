@@ -5,6 +5,7 @@ import com.jesus_crie.hunhowex.utils.EmbedMessageBuilder;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.exceptions.PermissionException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,7 @@ public class UserInfoCommand extends Command {
     }
 
     @Override
-    public void execute(Message msg, String[] args) {
+    public void execute(Message msg, String[] args) throws PermissionException {
         final Member m;
         if (msg.getMentionedUsers().size() <= 0)
             m = msg.getGuild().getMember(msg.getAuthor());
@@ -33,11 +34,11 @@ public class UserInfoCommand extends Command {
         builder.setThumbnail(m.getUser().getEffectiveAvatarUrl());
         builder.setTitleWithIcon("Some infos about \"" + m.getEffectiveName() + "\"", m.getUser().getEffectiveAvatarUrl());
 
-        builder.addRegularSection("User ID", m.getUser().getId(), true);
-        builder.addRegularSection("Full name", CommandUtils.getUserString(m.getUser()), true);
-        builder.addRegularSection("Status", m.getOnlineStatus().getKey().toUpperCase(), true);
-        builder.addRegularSection("Current Game", m.getGame().getName(), true);
-        builder.addRegularSection("Join At", CommandUtils.stringifyDate(m.getJoinDate()), true);
+        builder.addField("User ID", m.getUser().getId(), true);
+        builder.addField("Full name", CommandUtils.getUserString(m.getUser()), true);
+        builder.addField("Status", m.getOnlineStatus().getKey().toUpperCase(), true);
+        builder.addField("Current Game", m.getGame().getName(), true);
+        builder.addField("Join At", CommandUtils.stringifyDate(m.getJoinDate()), true);
 
         List<String> roles = new ArrayList<>();
         String colorRole = m.getRoles().stream().filter(r ->
@@ -50,7 +51,7 @@ public class UserInfoCommand extends Command {
             m.getRoles().stream().map(r -> r.getName()).forEachOrdered(r -> roles.add(r));
         roles.set(roles.indexOf(colorRole), "**__" + colorRole + "__**");
 
-        builder.addRegularSection("Roles",
+        builder.addField("Roles",
                 String.join(", ", roles), false);
 
         msg.getChannel().sendMessage(builder.build()).queue();

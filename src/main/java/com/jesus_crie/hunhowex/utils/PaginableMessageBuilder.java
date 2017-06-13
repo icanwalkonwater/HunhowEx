@@ -28,14 +28,16 @@ public class PaginableMessageBuilder extends ReactableMessageBuilder {
     }
 
     @Override
-    public void setTitleWithIcon(String title, String iconUrl) {
+    public PaginableMessageBuilder setTitleWithIcon(String title, String iconUrl) {
         this.title = title;
         this.iconUrl = iconUrl;
+        return this;
     }
 
     @Override
-    public void setTitle(String title) {
+    public PaginableMessageBuilder setTitle(String title) {
         this.title = title;
+        return this;
     }
 
     public void addPage(EmbedPage page) {

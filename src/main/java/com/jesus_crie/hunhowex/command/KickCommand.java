@@ -4,6 +4,7 @@ import com.jesus_crie.hunhowex.utils.CommandUtils;
 import com.jesus_crie.hunhowex.utils.EmbedMessageBuilder;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.exceptions.PermissionException;
 
 public class KickCommand extends Command {
 
@@ -17,7 +18,7 @@ public class KickCommand extends Command {
     }
 
     @Override
-    public void execute(Message msg, String[] args) {
+    public void execute(Message msg, String[] args) throws PermissionException {
         if (!msg.getGuild().getOwner().getUser().getId().equalsIgnoreCase(msg.getAuthor().getId())) {
             msg.getChannel().sendMessage(CommandUtils.getMessageError(msg.getAuthor(), "Only the owner of this server can use this !")).queue();
             return;

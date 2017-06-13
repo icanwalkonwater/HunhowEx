@@ -3,6 +3,7 @@ package com.jesus_crie.hunhowex.command;
 import com.jesus_crie.hunhowex.utils.EmbedMessageBuilder;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.exceptions.PermissionException;
 
 import java.util.Arrays;
 
@@ -18,7 +19,7 @@ public class EmbedCommand extends Command {
     }
 
     @Override
-    public void execute(Message msg, String[] args) {
+    public void execute(Message msg, String[] args) throws PermissionException {
         EmbedMessageBuilder builder = new EmbedMessageBuilder(msg.getAuthor());
         builder.setTitleWithIcon(args[0], args[1]);
         builder.addSection(String.join(" ", Arrays.copyOfRange(args, 2, args.length)));

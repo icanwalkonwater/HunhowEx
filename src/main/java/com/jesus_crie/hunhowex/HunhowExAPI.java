@@ -1,11 +1,15 @@
 package com.jesus_crie.hunhowex;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.jesus_crie.hunhowex.command.Command;
+import com.jesus_crie.hunhowex.hooks.HookManager;
 import com.jesus_crie.hunhowex.music.MusicManager;
 import com.jesus_crie.hunhowex.storage.GuildConfig;
 import com.jesus_crie.hunhowex.storage.JsonConfig;
 import net.dv8tion.jda.core.JDA;
+import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
+import org.apache.commons.lang3.time.DurationFormatUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,13 +21,23 @@ public class HunhowExAPI {
     private static List<Command> cmdsPublic;
     private static boolean debug = false;
     private static MusicManager musicManager;
-
+    private static HookManager hookManager;
     private static long start;
 
     public static void init() {
+        start = System.currentTimeMillis();
+
         commands = new ArrayList<>();
         cmdsPublic = new ArrayList<>();
         start = System.currentTimeMillis();
+        //hookManager = new HookManager(JsonConfig.getGuildConfigs());
+    }
+
+    // MISC
+
+    public static String getUptime() {
+        long uptime = System.currentTimeMillis() - start;
+        return DurationFormatUtils.formatDuration(uptime, "d'd' HH'h' mm'm'");
     }
 
     // COMMANDS
@@ -84,11 +98,16 @@ public class HunhowExAPI {
     }
 
     public static boolean registerGuild(GuildConfig cfg) {
-        return JsonConfig.saveGuildConfig(cfg);
+        if (JsonConfig.saveGuildConfig(cfg)) {
+            musicManager.registerGuild(cfg);
+            return true;
+        }
+        return false;
     }
 
-    public static void unregisterGuild(String id) {
-        JsonConfig.deleteGuildConfig(id);
+    public static void unregisterGuild(Guild guild) {
+        musicManager.getMusicManager(guild).disconnect();
+        JsonConfig.deleteGuildConfig(guild.getId());
     }
 
     // DEBUG
@@ -107,5 +126,11 @@ public class HunhowExAPI {
         if (musicManager == null)
             musicManager = new MusicManager();
         return musicManager;
+    }
+
+    // HOOKS
+
+    public static HookManager getHookManager() {
+        return hookManager;
     }
 }

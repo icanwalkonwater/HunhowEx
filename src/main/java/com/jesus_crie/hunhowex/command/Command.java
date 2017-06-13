@@ -3,6 +3,7 @@ package com.jesus_crie.hunhowex.command;
 import com.jesus_crie.hunhowex.logger.Logger;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.exceptions.PermissionException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,7 +35,7 @@ public abstract class Command {
         return subCommands.isEmpty();
     }
 
-    public abstract void execute(Message msg, String[] args);
+    public abstract void execute(Message msg, String[] args) throws PermissionException;
 
     protected boolean hasPermission(Message msg) {
         return true;

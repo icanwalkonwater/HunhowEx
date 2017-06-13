@@ -1,7 +1,11 @@
 [ {
-  "guildId" : "219802541775519744",
-  "musicAutoPlaylist" : "default"
+  "id" : "219802541775519744",
+  "music_autoplaylist" : "default",
+  "welcome_message" : "none",
+  "welcome_channel" : "{main}"
 }, {
-  "guildId" : "264001800686796800",
-  "musicAutoPlaylist" : "default"
+  "id" : "264001800686796800",
+  "music_autoplaylist" : "default",
+  "welcome_message" : "none",
+  "welcome_channel" : "{main}"
 } ]

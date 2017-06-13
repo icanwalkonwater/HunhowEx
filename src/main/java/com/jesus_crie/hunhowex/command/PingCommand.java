@@ -4,6 +4,7 @@ import com.jesus_crie.hunhowex.utils.CommandUtils;
 import com.jesus_crie.hunhowex.utils.EmbedMessageBuilder;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.exceptions.PermissionException;
 
 import java.time.Duration;
 
@@ -19,7 +20,7 @@ public class PingCommand extends Command {
     }
 
     @Override
-    public void execute(Message msg, String[] args) {
+    public void execute(Message msg, String[] args) throws PermissionException {
         EmbedMessageBuilder builder = new EmbedMessageBuilder(msg.getAuthor());
         builder.setTitleWithIcon("Calculating ping...", CommandUtils.ICON_INFO);
         builder.addSection("This time include message building time.");

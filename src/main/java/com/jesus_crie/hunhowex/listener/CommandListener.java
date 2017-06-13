@@ -48,6 +48,9 @@ public class CommandListener extends ListenerAdapter {
                     } catch (PermissionException e1) {
                         e.getChannel().sendMessage(CommandUtils.getMessageError(e.getAuthor(), "Missing permission: " + e1.getPermission().getName())).queue();
                         Logger.error("[Permissions] Missing permission: " + e1.getPermission().getName());
+                    } catch (IllegalArgumentException e1) {
+                        e.getChannel().sendMessage(CommandUtils.getMessageError(e.getAuthor(), "Message too long to be sent !")).queue();
+                        Logger.error("[IllegalArgument] Message too long !");
                     }
                 }).start();
             }

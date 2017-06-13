@@ -9,6 +9,7 @@ import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.impl.MessageEmbedImpl;
+import net.dv8tion.jda.core.exceptions.PermissionException;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -52,7 +53,7 @@ public class HelpCommand extends Command {
     }
 
     @Override
-    public void execute(Message msg, String[] args) {
+    public void execute(Message msg, String[] args) throws PermissionException {
         LinkedHashMap<String, EmbedPage> pages = createHelp(msg.getGuild().getId());
 
         PaginableMessageBuilder builder = new PaginableMessageBuilder(msg.getAuthor());

@@ -14,6 +14,9 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.Game;
+import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.impl.GameImpl;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
 
@@ -23,7 +26,7 @@ import java.util.TimerTask;
 
 public class HunhowEx {
 
-    public static final String VERSION = "2.0.0";
+    public static final String VERSION = "2.1.0";
 
     private static HunhowEx instance;
     private static boolean ready = false;
@@ -72,7 +75,8 @@ public class HunhowEx {
                 new MuteListener(),
                 new FriendRequestListener(),
                 new VoiceListener(),
-                new TrollListener()
+                new TrollListener(),
+                new WelcomeListener()
         );
 
         Logger.info("[Start] Registering commands...");
@@ -84,12 +88,17 @@ public class HunhowEx {
                 new PingCommand(),
                 new MusicCommand(),
                 new QuoteCommand(),
+                new GifCommand(),
+                new WordReactCommand(),
+                new WarframeCommand(),
                 new UserInfoCommand(),
                 new ServerInfoCommand(),
 
                 // Management commands
                 new InfoCommand(),
+                new ClearCommand(),
                 new AddCommand(),
+                new ConfigCommand(),
                 new InitCommand(),
                 new UnregisterCommand(),
                 new KickCommand(),
@@ -99,7 +108,8 @@ public class HunhowEx {
                 // Dev commands
                 new DebugCommand(),
                 new TestCommand(),
-                new EmbedCommand()
+                new EmbedCommand(),
+                new HookCommand()
         );
         Logger.info("[Start] " + HunhowExAPI.getCommands().size() + " commands registerd");
 

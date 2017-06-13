@@ -4,6 +4,7 @@ import com.jesus_crie.hunhowex.utils.CommandUtils;
 import com.jesus_crie.hunhowex.utils.EmbedMessageBuilder;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.exceptions.PermissionException;
 
 public class TestCommand extends Command {
 
@@ -17,7 +18,7 @@ public class TestCommand extends Command {
     }
 
     @Override
-    public void execute(Message msg, String[] args) {
+    public void execute(Message msg, String[] args) throws PermissionException {
         EmbedMessageBuilder builder = new EmbedMessageBuilder(msg.getAuthor());
         builder.setTitleWithIcon("Just a test", CommandUtils.ICON_INFO);
 

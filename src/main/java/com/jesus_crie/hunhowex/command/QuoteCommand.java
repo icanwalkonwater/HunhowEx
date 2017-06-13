@@ -4,6 +4,7 @@ import com.jesus_crie.hunhowex.utils.CommandUtils;
 import com.jesus_crie.hunhowex.utils.EmbedMessageBuilder;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.exceptions.PermissionException;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class QuoteCommand extends Command {
     }
 
     @Override
-    public void execute(Message msg, String[] args) {
+    public void execute(Message msg, String[] args) throws PermissionException {
         if (args.length <= 0) {
             msg.getChannel().sendMessage(CommandUtils.getMessageError(msg.getAuthor(), "You can't quote the void !")).queue();
             return;

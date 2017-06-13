@@ -3,6 +3,8 @@ package com.jesus_crie.hunhowex.storage;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.jesus_crie.hunhowex.HunhowEx;
+import com.jesus_crie.hunhowex.HunhowExAPI;
 import com.jesus_crie.hunhowex.exception.BotException;
 import com.jesus_crie.hunhowex.exception.ExceptionGravity;
 import com.jesus_crie.hunhowex.logger.Logger;
@@ -97,10 +99,15 @@ public class JsonConfig {
 
     public static boolean saveGuildConfig(GuildConfig cfg) {
         guildConfigs.put(cfg.getGuildId(), cfg);
-        return save();
+        if (save())
+            return init(HunhowExAPI.getJda().getGuilds());
+        return false;
     }
 
-    public static void deleteGuildConfig(String id) {
+    public static boolean deleteGuildConfig(String id) {
         guildConfigs.remove(id);
+        if (save())
+            return init(HunhowExAPI.getJda().getGuilds());
+        return false;
     }
 }

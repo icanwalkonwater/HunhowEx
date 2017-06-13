@@ -15,6 +15,7 @@ import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.GuildVoiceState;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.VoiceChannel;
+import net.dv8tion.jda.core.exceptions.PermissionException;
 
 import java.io.IOException;
 import java.net.URL;
@@ -63,7 +64,7 @@ public class MusicCommand extends Command {
     }
 
     @Override
-    public void execute(Message msg, String[] args) {
+    public void execute(Message msg, String[] args) throws PermissionException {
         if (args.length <= 0) {
             msg.getChannel().sendMessage(CommandUtils.getMessageError(msg.getAuthor(), "Unknown subcommand, use `" + CommandUtils.PREFIX + "help music` for help")).queue();
             return;
@@ -90,7 +91,7 @@ public class MusicCommand extends Command {
         }
 
         @Override
-        public void execute(Message msg, String[] args) {
+        public void execute(Message msg, String[] args) throws PermissionException {
             GuildMusicManager manager = HunhowExAPI.getMusicManager().getMusicManager(msg.getGuild());
             GuildVoiceState state = manager.getUserVoiceState(msg.getAuthor());
 
@@ -126,7 +127,7 @@ public class MusicCommand extends Command {
         }
 
         @Override
-        public void execute(Message msg, String[] args) {
+        public void execute(Message msg, String[] args) throws PermissionException {
             if (args.length <= 0) {
                 msg.getChannel().sendMessage(CommandUtils.getMessageError(msg.getAuthor(), "Usage: `" + CommandUtils.PREFIX + "music play <url|identifier>`")).queue();
                 return;
@@ -178,7 +179,7 @@ public class MusicCommand extends Command {
         }
 
         @Override
-        public void execute(Message msg, String[] args) {
+        public void execute(Message msg, String[] args) throws PermissionException {
             if (!isUserSameChannel(msg)) {
                 msg.getChannel().sendMessage(CommandUtils.getMessageError(msg.getAuthor(), "You must be in the same channel as me to use this command !")).queue();
                 return;
@@ -191,8 +192,8 @@ public class MusicCommand extends Command {
 
             EmbedMessageBuilder builder = new EmbedMessageBuilder(msg.getAuthor());
             builder.setTitleWithIcon("Skipping track", CommandUtils.ICON_MUSIC);
-            builder.addRegularSection("Skipped", old, false);
-            builder.addRegularSection("Playing", manager.getCurrentTrack().getInfo().title, false);
+            builder.addField("Skipped", old, false);
+            builder.addField("Playing", manager.getCurrentTrack().getInfo().title, false);
 
             msg.getChannel().sendMessage(builder.build()).queue();
         }
@@ -210,7 +211,7 @@ public class MusicCommand extends Command {
         }
 
         @Override
-        public void execute(Message msg, String[] args) {
+        public void execute(Message msg, String[] args) throws PermissionException {
             if (!isUserSameChannel(msg)) {
                 msg.getChannel().sendMessage(CommandUtils.getMessageError(msg.getAuthor(), "You must be in the same channel as me to use this command !")).queue();
                 return;
@@ -241,7 +242,7 @@ public class MusicCommand extends Command {
         }
 
         @Override
-        public void execute(Message msg, String[] args) {
+        public void execute(Message msg, String[] args) throws PermissionException {
             if (!isUserSameChannel(msg)) {
                 msg.getChannel().sendMessage(CommandUtils.getMessageError(msg.getAuthor(), "You must be in the same channel as me to use this command !")).queue();
                 return;
@@ -269,7 +270,7 @@ public class MusicCommand extends Command {
         }
 
         @Override
-        public void execute(Message msg, String[] args) {
+        public void execute(Message msg, String[] args) throws PermissionException {
             if (!isUserSameChannel(msg)) {
                 msg.getChannel().sendMessage(CommandUtils.getMessageError(msg.getAuthor(), "You must be in the same channel as me to use this command !")).queue();
                 return;
@@ -310,7 +311,7 @@ public class MusicCommand extends Command {
         }
 
         @Override
-        public void execute(Message msg, String[] args) {
+        public void execute(Message msg, String[] args) throws PermissionException {
             if (!isUserSameChannel(msg)) {
                 msg.getChannel().sendMessage(CommandUtils.getMessageError(msg.getAuthor(), "You must be in the same channel as me to use this command !")).queue();
                 return;
@@ -355,7 +356,7 @@ public class MusicCommand extends Command {
         }
 
         @Override
-        public void execute(Message msg, String[] args) {
+        public void execute(Message msg, String[] args) throws PermissionException {
             GuildMusicManager manager = HunhowExAPI.getMusicManager().getMusicManager(msg.getGuild());
 
             EmbedMessageBuilder builder = new EmbedMessageBuilder(msg.getAuthor());
@@ -390,7 +391,7 @@ public class MusicCommand extends Command {
         }
 
         @Override
-        public void execute(Message msg, String[] args) {
+        public void execute(Message msg, String[] args) throws PermissionException {
             GuildMusicManager manager = HunhowExAPI.getMusicManager().getMusicManager(msg.getGuild());
 
             AudioTrack track = manager.getCurrentTrack();
@@ -441,7 +442,7 @@ public class MusicCommand extends Command {
         }
 
         @Override
-        public void execute(Message msg, String[] args) {
+        public void execute(Message msg, String[] args) throws PermissionException {
             GuildMusicManager manager = HunhowExAPI.getMusicManager().getMusicManager(msg.getGuild());
 
             manager.shuffle();

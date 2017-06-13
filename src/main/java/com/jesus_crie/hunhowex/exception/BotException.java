@@ -5,14 +5,14 @@ import com.jesus_crie.hunhowex.logger.Logger;
 public class BotException {
 
     public BotException(ExceptionGravity gravity, String message) {
-        Logger.error("[" + gravity.toString() + "] " + message);
+        Logger.error("[" + gravity + "] " + message);
     }
 
     public BotException(ExceptionGravity gravity, String message, Class from) {
-        Logger.error("[" + gravity.toString() + "] " + from.getSimpleName() + ": " + message);
+        Logger.error("[" + gravity + "] " + from.getSimpleName() + ": " + message);
     }
 
     public BotException(ExceptionGravity gravity, String message, Throwable e) {
-        Logger.errorUnhandled("[" + gravity + "] " + message + " Message: " + e, e);
+        Logger.errorUnhandled("[" + gravity + "] " + message, e);
     }
 }
