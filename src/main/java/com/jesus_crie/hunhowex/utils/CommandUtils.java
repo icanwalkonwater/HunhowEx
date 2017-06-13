@@ -14,7 +14,7 @@ import java.util.TimeZone;
 
 public class CommandUtils {
 
-    public static final String PREFIX = "$";
+    public static final String PREFIX = ">";
 
     public static final String GUILD_TEST_ZONE = "264001800686796800";
 
